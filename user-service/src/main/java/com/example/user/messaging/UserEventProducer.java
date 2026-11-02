@@ -1,6 +1,6 @@
 package com.example.user.messaging;
 
-import com.example.user.event.UserCreatedEvent;
+import com.example.shared.event.UserCreatedEvent;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
