@@ -17,9 +17,11 @@
 
 	<modules>
 		<module>user-service</module>
+		<module>account-service</module>
+		<module>shared-contracts</module>
+
 		<!--	TODO: To be implemented in later commits  :)-->
 
-		<!--        <module>account-service</module>-->
 		<!--        <module>payment-service</module>-->
 		<!--        <module>notification-service</module>-->
 	</modules>

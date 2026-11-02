@@ -2,10 +2,12 @@ package com.example.account.messaging;
 
 import com.example.account.entity.KnownUser;
 import com.example.account.repository.KnownUserRepository;
-import com.example.user.event.UserCreatedEvent;
+import com.example.shared.event.UserCreatedEvent;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class UserEventConsumer {
     private final KnownUserRepository knownUserRepository;
@@ -23,6 +25,7 @@ public class UserEventConsumer {
 
                     return newUser;
                 });
+        log.info("Received UserCreatedEvent for user ID: {}", knownUser.getUserId());
 
         knownUser.setActive(true);
 

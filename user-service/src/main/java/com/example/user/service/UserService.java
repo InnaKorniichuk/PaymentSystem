@@ -2,7 +2,7 @@ package com.example.user.service;
 
 import com.example.user.entity.User;
 import com.example.user.repository.UserRepository;
-import com.example.user.event.UserCreatedEvent;
+import com.example.shared.event.UserCreatedEvent;
 import com.example.user.messaging.UserEventProducer;
 import com.example.user.dto.LoginRequest;
 import com.example.user.dto.LoginResponse;
