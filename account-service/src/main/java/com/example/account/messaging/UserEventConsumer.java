@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class UserEventConsumer {
+
     private final KnownUserRepository knownUserRepository;
 
     public UserEventConsumer(KnownUserRepository knownUserRepository) {
