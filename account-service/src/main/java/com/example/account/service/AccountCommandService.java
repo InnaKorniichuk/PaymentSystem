@@ -19,7 +19,7 @@ public class AccountCommandService {
     private final IdempotentRequestRepository idempotentRequestRepository;
 
     @Transactional
-    public Account create(Currency currency, Long userId){
+    public Account create(com.example.shared.entity.Currency currency, Long userId){
         KnownUser knownUser = knownUserRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
@@ -44,7 +44,7 @@ public class AccountCommandService {
     }
 
     @Transactional
-    public Account deposit(double amount, long userId, Currency currency, String idempotencyKey){
+    public Account deposit(double amount, long userId, com.example.shared.entity.Currency currency, String idempotencyKey){
         if (idempotencyKey != null && !idempotencyKey.isBlank()) {
             if (idempotentRequestRepository.existsById(idempotencyKey)) {
                 log.info("Idempotency key [{}] already processed. Returning existing account state for duplicate request.", idempotencyKey);
@@ -77,7 +77,7 @@ public class AccountCommandService {
     }
 
     @Transactional
-    public Account withdraw(double amount, long userId, Currency currency, String idempotencyKey){
+    public Account withdraw(double amount, long userId, com.example.shared.entity.Currency currency, String idempotencyKey){
         if (idempotencyKey != null && !idempotencyKey.isBlank()) {
             if (idempotentRequestRepository.existsById(idempotencyKey)) {
                 log.info("Idempotency key [{}] already processed. Returning existing account state for duplicate request.", idempotencyKey);

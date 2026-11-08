@@ -1,9 +1,9 @@
 package com.example.account.repository;
 
 import com.example.account.entity.Account;
-import com.example.account.entity.Currency;
-import org.springframework.data.jpa.repository.JpaRepository;import org.springframework.stereotype.Repository;
-
+import com.example.shared.entity.Currency;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 

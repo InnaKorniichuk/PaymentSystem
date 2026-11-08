@@ -3,7 +3,6 @@ package com.example.account.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.math.BigDecimal;
 
 @Entity
@@ -17,7 +16,7 @@ public class Account {
     private Long userId;
 
     @Enumerated(EnumType.STRING)
-    private Currency currency;
+    private com.example.shared.entity.Currency currency;
 
     private BigDecimal balance;
 }
