@@ -1,6 +1,6 @@
 package com.example.account.dto;
 
-import com.example.account.entity.Currency;
+import com.example.shared.entity.Currency;
 
 public class AccountChangeRequest {
     private double amount;

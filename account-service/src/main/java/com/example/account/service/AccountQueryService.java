@@ -1,7 +1,7 @@
 package com.example.account.service;
 
 import com.example.account.entity.Account;
-import com.example.account.entity.Currency;
+import com.example.shared.entity.Currency;
 import com.example.account.entity.TransactionLedger;
 import com.example.account.repository.AccountRepository;
 import com.example.account.repository.TransactionLedgerRepository;
