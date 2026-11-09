@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -34,9 +35,26 @@ public class PaymentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Transaction> getTransactionStatus(@PathVariable Long id) {
-        log.info("REST_REQUEST: Checking status for transaction ID [{}]", id);
-        Transaction transaction = paymentService.getTransactionById(id);
+    public ResponseEntity<Transaction> getTransactionStatus(
+            @PathVariable Long id,
+            @AuthenticationPrincipal Jwt jwt) {
+
+        Long currentUserId = Long.valueOf(jwt.getSubject());
+
+        log.info("REST_REQUEST: User [{}] checking status for transaction ID [{}]", currentUserId, id);
+
+        Transaction transaction = paymentService.getTransactionByIdAndUser(id, currentUserId);
+
         return ResponseEntity.ok(transaction);
+    }
+
+    @GetMapping("/history")
+    public ResponseEntity<List<Transaction>> getTransactionHistory(@AuthenticationPrincipal Jwt jwt) {
+        Long currentUserId = Long.valueOf(jwt.getSubject());
+
+        log.info("REST_REQUEST: User [{}] requesting transaction history", currentUserId);
+        List<Transaction> history = paymentService.getTransactionHistoryForUser(currentUserId);
+
+        return ResponseEntity.ok(history);
     }
 }

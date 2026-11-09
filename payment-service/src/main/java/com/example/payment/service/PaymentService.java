@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -30,6 +31,8 @@ public class PaymentService {
         transaction.setCurrency(request.getCurrency());
         transaction.setStatus(TransactionStatus.PENDING);
         transaction.setCreatedAt(LocalDateTime.now());
+        transaction.setSourceAccountId(userId);
+        transaction.setDestinationAccountId(request.getRecipientUserId());
 
         Transaction savedTransaction = transactionRepository.save(transaction);
         log.debug("Transaction ID [{}] persisted with state: PENDING", savedTransaction.getId());
@@ -48,9 +51,14 @@ public class PaymentService {
         return savedTransaction;
     }
 
-    public Transaction getTransactionById(Long transactionId) {
-        log.info("GET_TRANSACTION: Fetching transaction with ID [{}]", transactionId);
-        return transactionRepository.findById(transactionId)
-                .orElseThrow(() -> new IllegalArgumentException("Transaction not found with ID: " + transactionId));
+    public Transaction getTransactionByIdAndUser(Long transactionId, Long userId) {
+        log.info("GET_TRANSACTION: Fetching transaction ID [{}] for user [{}]", transactionId, userId);
+        return transactionRepository.findByIdAndSourceAccountId(transactionId, userId)
+                .orElseThrow(() -> new IllegalArgumentException("Transaction not found or access denied for ID: " + transactionId));
+    }
+
+    public List<Transaction> getTransactionHistoryForUser(Long userId) {
+        log.info("GET_HISTORY: Fetching all transactions for user [{}]", userId);
+        return transactionRepository.findAllBySourceAccountId(userId);
     }
 }
