@@ -20,10 +20,7 @@
 		<module>account-service</module>
 		<module>shared-contracts</module>
         <module>payment-service</module>
-
-		<!--	TODO: To be implemented in later commits  :)-->
-
-		<!--        <module>notification-service</module>-->
+		<module>notification-service</module>
 	</modules>
 
 	<properties>
