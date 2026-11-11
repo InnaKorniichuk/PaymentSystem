@@ -8,11 +8,11 @@ import com.example.user.dto.LoginRequest;
 import com.example.user.dto.LoginResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.time.Instant;
 
 @Service
 public class UserService {
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserEventProducer userEventProducer;

@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PaymentEventConsumer {
 
     private final AccountRepository accountRepository;
-    private final KafkaTemplate<String, PaymentResultEvent> kafkaTemplate; // Додаємо KafkaTemplate для зворотного зв'язку
+    private final KafkaTemplate<String, PaymentResultEvent> kafkaTemplate;
 
     @KafkaListener(topics = "payment-initiated-topic", groupId = "account-service-group")
     @Transactional
@@ -51,13 +51,27 @@ public class PaymentEventConsumer {
 
             log.info("TRANSFER_PROCESSED_SUCCESSFULLY: Transaction ID [{}]", event.transactionId());
 
-            PaymentResultEvent resultEvent = new PaymentResultEvent(event.transactionId(), "COMPLETED", null);
+            PaymentResultEvent resultEvent = new PaymentResultEvent(
+                    event.transactionId(),
+                    event.userId(),
+                    "COMPLETED",
+                    null,
+                    event.amount(),
+                    event.currency()
+            );
             kafkaTemplate.send("payment-result-topic", resultEvent);
 
         } catch (Exception e) {
             log.error("TRANSFER_PROCESSING_FAILED: Transaction ID [{}] due to: {}", event.transactionId(), e.getMessage());
 
-            PaymentResultEvent resultEvent = new PaymentResultEvent(event.transactionId(), "FAILED", e.getMessage());
+            PaymentResultEvent resultEvent = new PaymentResultEvent(
+                    event.transactionId(),
+                    event.userId(),
+                    "FAILED",
+                    e.getMessage(),
+                    event.amount(),
+                    event.currency()
+            );
             kafkaTemplate.send("payment-result-topic", resultEvent);
         }
     }
