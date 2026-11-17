@@ -3,6 +3,7 @@ package com.example.payment.controller;
 import com.example.payment.dto.TransferRequest;
 import com.example.payment.entity.Transaction;
 import com.example.payment.service.PaymentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class PaymentController {
 
     @PostMapping("/transfer")
     public ResponseEntity<Transaction> transferFunds(
-            @RequestBody TransferRequest request,
+            @Valid @RequestBody TransferRequest request,
             @AuthenticationPrincipal Jwt jwt) {
 
         Long sourceAccountId = Long.valueOf(jwt.getSubject());
@@ -29,9 +30,9 @@ public class PaymentController {
         log.info("REST_REQUEST: User/Account [{}] initiating transfer to user [{}]",
                 sourceAccountId, request.getRecipientUserId());
 
-        Transaction completedTransaction = paymentService.executeP2PTransfer(request, sourceAccountId);
+        Transaction pendingTransaction = paymentService.executeP2PTransfer(request, sourceAccountId);
 
-        return ResponseEntity.ok(completedTransaction);
+        return ResponseEntity.accepted().body(pendingTransaction);
     }
 
     @GetMapping("/{id}")

@@ -1,4 +1,4 @@
-package com.example.payment;
+package com.example.payment.messaging;
 
 import com.example.payment.entity.Transaction;
 import com.example.payment.entity.TransactionStatus;
