@@ -1,5 +1,6 @@
 package com.example.user.service;
 
+import com.example.shared.event.UserDeactivatedEvent;
 import com.example.user.entity.User;
 import com.example.user.repository.UserRepository;
 import com.example.shared.event.UserCreatedEvent;
@@ -80,8 +81,10 @@ public class UserService {
     @Transactional
     public void deactivate(Long userId) {
         User user = getById(userId);
+        if (!user.isActive()) return;
         user.setActive(false);
         userRepository.save(user);
+        userEventProducer.sendMessage(new UserDeactivatedEvent(userId, Instant.now()));
     }
 
     private boolean isBlank(String s) {
