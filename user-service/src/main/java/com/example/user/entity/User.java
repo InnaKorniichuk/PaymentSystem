@@ -20,4 +20,7 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private boolean active = true;
 }
